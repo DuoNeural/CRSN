@@ -346,6 +346,8 @@ def train_production():
     p.add_argument("--adam-lr", type=float, default=1e-3)
     p.add_argument("--save-interval", type=int, default=25)
     p.add_argument("--eval-interval", type=int, default=25)
+    p.add_argument("--ckpt-dir", default=None, help="Directory to save checkpoints")
+    p.add_argument("--resume", default=None, help="Path to checkpoint to resume training from")
     args = p.parse_args()
 
     device = torch.device("cpu")
@@ -398,12 +400,21 @@ def train_production():
         {"params": adam_no_decay_params, "weight_decay": 0.0}
     ], lr=args.adam_lr, betas=(0.9, 0.95))
 
-    ckpt_dir = os.path.join(args.data_dir, "checkpoints_crsn")
+    ckpt_dir = args.ckpt_dir or os.path.join(args.data_dir, "checkpoints_crsn")
     os.makedirs(ckpt_dir, exist_ok=True)
 
     opt_step = 0
     total_micro_steps = args.total_optimizer_steps * args.grad_accum_steps
     best_val_loss = float("inf")
+
+    if args.resume and os.path.exists(args.resume):
+        print(f"[Resume] Loading weights from {args.resume}...", flush=True)
+        ckpt = torch.load(args.resume, map_location="cpu", weights_only=False)
+        sd = ckpt.get("model_state", ckpt.get("model", ckpt))
+        model.load_state_dict(sd, strict=False)
+        if "loss" in ckpt:
+            best_val_loss = ckpt["loss"]
+            print(f"[Resume] Initialized best_val_loss to {best_val_loss:.4f}", flush=True)
 
     t0 = time.perf_counter()
     print(f"[Run] Launching CRSN Pretraining: Steps 1 -> {args.total_optimizer_steps} ({total_micro_steps} micro-steps)...", flush=True)
@@ -484,7 +495,7 @@ def train_production():
 
             # Periodic Checkpoint
             if opt_step % args.save_interval == 0 or opt_step == args.total_optimizer_steps:
-                ckpt_path = os.path.join(ckpt_dir, f"crsn_step{opt_step:04d}.pt")
+                ckpt_path = os.path.join(ckpt_dir, f"crsn_step{opt_step:05d}.pt")
                 torch.save({"opt_step": opt_step, "loss": loss.item(), "model_state": model.state_dict()}, ckpt_path)
                 print(f"  --> [Checkpoint] Saved atomic checkpoint to {ckpt_path}", flush=True)
 
