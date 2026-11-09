@@ -1,0 +1,9 @@
+*.pt
+*.bin
+*.log
+*.pid
+__pycache__/
+*.so
+build/
+.cache/
+checkpoints/
