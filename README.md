@@ -44,16 +44,23 @@ $$\text{Layer 0: } \bar{\omega} = 0.5420 \longrightarrow \text{Layer 7: } \bar{\
 
 Trained from scratch on an unmodified 4-core AMD Ryzen 5 3550H APU (Zen+ AVX2 SIMD):
 
-| Metric | CRSN Pilot (Nov 2026) | Baseline Symplectic (SRSN) |
-| :--- | :--- | :--- |
-| **Parameters** | **9.54M** ($L=8, D=384, D_{\text{state}}=192$) | 7.3M |
-| **Dataset** | DuoNeural Golden Ratio (TinyStories + FineWeb + CoT) | Golden Corpus |
-| **Tokens Processed** | **20.48M** (2,500 steps) | 95.8M |
-| **Wall Clock Time** | **12.86 hours** | ~122 hours |
-| **Throughput** | **442.4 tok/s** (AVX2 / OpenMP) | 185 tok/s |
-| **GradNorm** | **1.1 – 1.6** (Strictly bounded) | $\sim 2,946,000$ (Frozen) |
-| **Best Validation Loss** | **3.3735** 🏆 | 6.5484 |
-| **Best Perplexity** | **29.18** 🏆 | 698.1 |
+| Metric | CRSN Pilot (Nov 2026) | CRSN 100M Chinchilla (Active) | Baseline Symplectic (SRSN) |
+| :--- | :--- | :--- | :--- |
+| **Parameters** | **9.54M** ($L=8, D=384, D_{\text{state}}=192$) | **7.30M** ($L=8, D=320, D_{\text{state}}=160$) | 7.3M |
+| **Dataset** | DuoNeural Golden Ratio (TinyStories + FineWeb + CoT) | DuoNeural Golden Ratio (102.4M tokens) | Golden Corpus |
+| **Tokens Processed** | **20.48M** (2,500 steps) | **19.80M+** (2,416+ steps / 12,500) | 95.8M |
+| **Wall Clock Time** | **12.86 hours** | Cruising (~540 tok/s) | ~122 hours |
+| **Throughput** | **442.4 tok/s** (AVX2 / OpenMP) | **540.2 tok/s** (AVX2 / OpenMP) | 185 tok/s |
+| **GradNorm** | **1.1 – 1.6** (Strictly bounded) | **1.1 – 1.8** (Contractive Adjoint) | $\sim 2,946,000$ (Frozen) |
+| **Best Validation Loss** | **3.3735** 🏆 | **3.4558** (Step 1,600) 🏆 | 6.5484 |
+| **Best Perplexity** | **29.18** 🏆 | **31.68** (Step 1,600) 🏆 | 698.1 |
+
+### Emergent Generation Samples (Step 1,600 – 2,400):
+* **Story Continuity (Step 2,400):**
+  > *"Once upon a time, Lily. They loved to keep him for a little boy named Lily. He wants to eat them. They saw her mom. 'We can pot.' The little boy was not want to keep her back into the box of his mommy and went outside..."*
+* **Zero-Shot Reasoning Tags (Step 2,300):**
+  > *`Assistant: Polate the Mciral Progen, is a funds-wority. ### Probability:`*
+
 
 ---
 
