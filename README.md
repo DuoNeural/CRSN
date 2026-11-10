@@ -48,16 +48,16 @@ Trained from scratch on an unmodified 4-core AMD Ryzen 5 3550H APU (Zen+ AVX2 SI
 | :--- | :--- | :--- | :--- |
 | **Parameters** | **9.54M** ($L=8, D=384, D_{\text{state}}=192$) | **7.30M** ($L=8, D=320, D_{\text{state}}=160$) | 7.3M |
 | **Dataset** | DuoNeural Golden Ratio (TinyStories + FineWeb + CoT) | DuoNeural Golden Ratio (102.4M tokens) | Golden Corpus |
-| **Tokens Processed** | **20.48M** (2,500 steps) | **50.05M+** (6,110 / 12,500 steps — **48.9% Chinchilla**) | 95.8M |
+| **Tokens Processed** | **20.48M** (2,500 steps) | **53.56M+** (6,538 / 12,500 steps — **52.3% Chinchilla**) | 95.8M |
 | **Wall Clock Time** | **12.86 hours** | Active pretraining (~540–565 tok/s) | ~122 hours |
 | **Throughput** | **442.4 tok/s** (AVX2 / OpenMP) | **560.4 tok/s** (AVX2 / OpenMP) | 185 tok/s |
 | **GradNorm** | **1.1 – 1.6** (Strictly bounded) | **1.1 – 1.6** (Contractive Adjoint) | $\sim 2,946,000$ (Frozen) |
-| **Best Validation Loss** | **3.3735** 🏆 | **`3.3786`** (Step 6,100) 🏆 | 6.5484 |
-| **Best Perplexity** | **29.18** 🏆 | **`29.30`** (Step 6,100) 🏆 | 698.1 |
+| **Best Validation Loss** | **3.3735** 🏆 | **`3.2404`** (Step 6,500) 🏆 | 6.5484 |
+| **Best Perplexity** | **29.18** 🏆 | **`25.54`** (Step 6,500) 🏆 | 698.1 |
 
-### Emergent Generation & Training Dynamics (Steps 1,600 – 6,110+):
-* **50M-Token Halfway Milestone:** Passed **`50,050,000 tokens`** processed at Step 6,110 on pure CPU/APU hardware.
-* **Sub-30 Perplexity Barrier Broken:** Shattered sub-30 perplexity down to **`29.30 PPL` (Val Loss `3.3786`)** at Step 6,100, outperforming all prior non-Euclidean small models.
+### Emergent Generation & Training Dynamics (Steps 1,600 – 6,538+):
+* **All-Time Validation Record (PPL 25.5):** Shattered all prior records down to **`3.2404` Val Loss (Perplexity `25.54`)** at Step 6,500, outperforming the pilot model by 3.64 perplexity points.
+* **50M+ Chinchilla Milestone:** Passed **`53,560,000 tokens`** processed at Step 6,538 on consumer Ryzen APU hardware.
 * **Training Loss Milestone:** Dipped to **`2.6280`** at Step 5,886 with contractive grad norms ($1.2–1.5$).
 * **Story Continuity (Step 2,400):**
   > *"Once upon a time, Lily. They loved to keep him for a little boy named Lily. He wants to eat them. They saw her mom. 'We can pot.' The little boy was not want to keep her back into the box of his mommy and went outside..."*
