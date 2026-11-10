@@ -48,20 +48,21 @@ Trained from scratch on an unmodified 4-core AMD Ryzen 5 3550H APU (Zen+ AVX2 SI
 | :--- | :--- | :--- | :--- |
 | **Parameters** | **9.54M** ($L=8, D=384, D_{\text{state}}=192$) | **7.30M** ($L=8, D=320, D_{\text{state}}=160$) | 7.3M |
 | **Dataset** | DuoNeural Golden Ratio (TinyStories + FineWeb + CoT) | DuoNeural Golden Ratio (102.4M tokens) | Golden Corpus |
-| **Tokens Processed** | **20.48M** (2,500 steps) | **34.8M+** (4,250+ steps / 12,500) | 95.8M |
-| **Wall Clock Time** | **12.86 hours** | Active pretraining (~550–575 tok/s) | ~122 hours |
+| **Tokens Processed** | **20.48M** (2,500 steps) | **49.15M+** (6,000 / 12,500 steps — 48% Chinchilla) | 95.8M |
+| **Wall Clock Time** | **12.86 hours** | Active pretraining (~540–565 tok/s) | ~122 hours |
 | **Throughput** | **442.4 tok/s** (AVX2 / OpenMP) | **560.4 tok/s** (AVX2 / OpenMP) | 185 tok/s |
 | **GradNorm** | **1.1 – 1.6** (Strictly bounded) | **1.1 – 1.6** (Contractive Adjoint) | $\sim 2,946,000$ (Frozen) |
-| **Best Validation Loss** | **3.3735** 🏆 | **3.4558** (Step 1,600) / **3.6270** (Step 4,200) 🏆 | 6.5484 |
-| **Best Perplexity** | **29.18** 🏆 | **31.68** (Step 1,600) / **37.60** (Step 4,200) 🏆 | 698.1 |
+| **Best Validation Loss** | **3.3735** 🏆 | **`3.4330`** (Step 6,000) 🏆 | 6.5484 |
+| **Best Perplexity** | **29.18** 🏆 | **`31.00`** (Step 6,000) 🏆 | 698.1 |
 
-### Emergent Generation & Training Dynamics (Steps 1,600 – 4,250+):
-* **Training Loss Milestone:** Hit sub-3.00 milestone (**`2.8988`** at Step 3,721).
+### Emergent Generation & Training Dynamics (Steps 1,600 – 6,000):
+* **New Validation Record:** Achieved **`3.4330` val loss (PPL 31.00)** at Step 6,000, establishing a new all-time low for the 100M Chinchilla run.
+* **Training Loss Milestone:** Dipped to **`2.6280`** at Step 5,886 with contractive grad norms ($1.2–1.5$).
 * **Story Continuity (Step 2,400):**
   > *"Once upon a time, Lily. They loved to keep him for a little boy named Lily. He wants to eat them. They saw her mom. 'We can pot.' The little boy was not want to keep her back into the box of his mommy and went outside..."*
 * **Zero-Shot Reasoning Tags (Step 2,300):**
   > *`Assistant: Polate the Mciral Progen, is a funds-wority. ### Probability:`*
-* **Stability Invariant:** Adjoint spectrum remains completely bounded with zero gradient explosions across 17,000+ micro-steps. Memory footprint remains static at 526–534 MB RSS.
+* **Stability Invariant:** Adjoint spectrum remains completely bounded with zero gradient explosions across 24,000 micro-steps. Memory footprint remains static at 526–538 MB RSS.
 
 
 ---
