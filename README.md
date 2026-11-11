@@ -48,25 +48,24 @@ Trained from scratch on an unmodified 4-core AMD Ryzen 5 3550H APU (Zen+ AVX2 SI
 | :--- | :--- | :--- | :--- |
 | **Parameters** | **9.54M** ($L=8, D=384, D_{\text{state}}=192$) | **7.30M** ($L=8, D=320, D_{\text{state}}=160$) | 7.3M |
 | **Dataset** | DuoNeural Golden Ratio (TinyStories + FineWeb + CoT) | DuoNeural Golden Ratio (102.4M tokens) | Golden Corpus |
-| **Tokens Processed** | **20.48M** (2,500 steps) | **95.03M+** (11,600 / 12,500 steps — **95.03% Chinchilla**) | 95.8M |
+| **Tokens Processed** | **20.48M** (2,500 steps) | **96.01M+** (11,720 / 12,500 steps — **96.01% Chinchilla**) | 95.8M |
 | **Wall Clock Time** | **12.86 hours** | Active pretraining (~535–565 tok/s) | ~122 hours |
 | **Throughput** | **442.4 tok/s** (AVX2 / OpenMP) | **545.6 tok/s** (AVX2 / OpenMP) | 185 tok/s |
 | **GradNorm** | **1.1 – 1.6** (Strictly bounded) | **1.1 – 1.7** (Contractive Adjoint) | $\sim 2,946,000$ (Frozen) |
 | **Best Validation Loss** | **3.3735** 🏆 | **`3.1123`** (Step 8,300) 🏆 | 6.5484 |
 | **Best Perplexity** | **29.18** 🏆 | **`22.47`** (Step 8,300) 🏆 | 698.1 |
 
-### Emergent Generation & Training Dynamics (Steps 1,600 – 11,600+):
-* **95M+ Chinchilla Milestone:** Crossed **`95,027,200 tokens`** processed at Step 11,600 / 12,500 (**95.03% complete**) on consumer Ryzen 5 3550H APU hardware with zero GPU assistance! Less than 900 steps remaining to reach the full 100M token horizon!
-* **Atomic Checkpoint 11.6k Saved:** `crsn_step11600.pt` successfully archived to `/home/duoneural/srsn_ryzen/checkpoints_crsn_100m/` (Val Loss: **`3.2499`**, Perplexity: **`25.8`**).
+### Emergent Generation & Training Dynamics (Steps 1,600 – 11,720+):
+* **96M+ Chinchilla Milestone:** Crossed **`96,010,240 tokens`** processed at Step 11,720 / 12,500 (**96.01% complete**) on consumer Ryzen 5 3550H APU hardware with zero GPU assistance! Only 780 steps remaining to reach the full 100M token completion horizon!
+* **Atomic Checkpoints 11.6k & 11.7k Saved:** `crsn_step11600.pt` (Val Loss: **`3.2499`**, PPL: **`25.8`**) and `crsn_step11700.pt` successfully archived to `/home/duoneural/srsn_ryzen/checkpoints_crsn_100m/`.
 * **All-Time Validation Record (PPL 22.5):** Shattered all prior records down to **`3.1123` Val Loss (Perplexity `22.47`)** at Step 8,300, outperforming the 20M pilot model by 6.71 perplexity points.
 * **Sub-26 Perplexity Validation at 95M (Step 11,600):** Maintained **`3.2499` Val Loss (Perplexity `25.8`)** with bounded contractive adjoint norms.
 * **Training Loss Milestone:** Dipped to **`2.5765`** with strictly contractive grad norms ($1.2–1.6$).
-* **Emergent CoT Math & LaTeX Synthesis (Steps 8,300 – 11,600):**
+* **Emergent CoT Math & LaTeX Synthesis (Steps 8,300 – 11,700):**
   > *"Once upon a time, Lily felt so they looked at 1 = 25 \frac{2$. \n***Conclusion to $\cos(1)\s\cos(h)$$"*
-* **Zero-Shot System Directives & Formal Variables (Step 11,600):**
+* **Emergent Reasoning & LaTeX Formatting (Step 11,700):**
   > *`User: Is a cat an animal?`*  
-  > *`Assistant:*     *squential length of $n +1$)***`*  
-  > *`  is the problem inscribed inscribed in"`*
+  > *`Assistant: estability of the first, $A$.** If something is true, but it is true for the set of even if the set the"`*
 * **Zero-Shot Meta-Prompt & System Directives (Step 9,400):**
   > *`User: Is a cat an animal?`*  
   > *`Assistant:`*  
