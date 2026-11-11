@@ -48,15 +48,15 @@ Trained from scratch on an unmodified 4-core AMD Ryzen 5 3550H APU (Zen+ AVX2 SI
 | :--- | :--- | :--- | :--- |
 | **Parameters** | **9.54M** ($L=8, D=384, D_{\text{state}}=192$) | **7.30M** ($L=8, D=320, D_{\text{state}}=160$) | 7.3M |
 | **Dataset** | DuoNeural Golden Ratio (TinyStories + FineWeb + CoT) | DuoNeural Golden Ratio (102.4M tokens) | Golden Corpus |
-| **Tokens Processed** | **20.48M** (2,500 steps) | **96.67M+** (11,800 / 12,500 steps — **96.67% Chinchilla**) | 95.8M |
+| **Tokens Processed** | **20.48M** (2,500 steps) | **97.24M+** (11,870 / 12,500 steps — **97.24% Chinchilla**) | 95.8M |
 | **Wall Clock Time** | **12.86 hours** | Active pretraining (~535–565 tok/s) | ~122 hours |
 | **Throughput** | **442.4 tok/s** (AVX2 / OpenMP) | **545.6 tok/s** (AVX2 / OpenMP) | 185 tok/s |
 | **GradNorm** | **1.1 – 1.6** (Strictly bounded) | **1.1 – 1.7** (Contractive Adjoint) | $\sim 2,946,000$ (Frozen) |
 | **Best Validation Loss** | **3.3735** 🏆 | **`3.1123`** (Step 8,300) 🏆 | 6.5484 |
 | **Best Perplexity** | **29.18** 🏆 | **`22.47`** (Step 8,300) 🏆 | 698.1 |
 
-### Emergent Generation & Training Dynamics (Steps 1,600 – 11,800+):
-* **96.6M+ Chinchilla Milestone:** Crossed **`96,665,600 tokens`** processed at Step 11,800 / 12,500 (**96.67% complete**) on consumer Ryzen 5 3550H APU hardware with zero GPU assistance! Exactly 700 steps remaining to reach the full 100M token completion horizon!
+### Emergent Generation & Training Dynamics (Steps 1,600 – 11,870+):
+* **97M+ Chinchilla Milestone:** Crossed **`97,239,040 tokens`** processed at Step 11,870 / 12,500 (**97.24% complete**) on consumer Ryzen 5 3550H APU hardware with zero GPU assistance! Less than 630 steps remaining to reach the full 100M token horizon!
 * **Atomic Checkpoint 11.8k Saved:** `crsn_step11800.pt` successfully archived to `/home/duoneural/srsn_ryzen/checkpoints_crsn_100m/`.
 * **Emergent Markdown Header & Section Synthesis (Step 11,800):**
   > *`User: Is a cat an animal?`*  
