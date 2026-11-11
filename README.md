@@ -48,16 +48,21 @@ Trained from scratch on an unmodified 4-core AMD Ryzen 5 3550H APU (Zen+ AVX2 SI
 | :--- | :--- | :--- | :--- |
 | **Parameters** | **9.54M** ($L=8, D=384, D_{\text{state}}=192$) | **7.30M** ($L=8, D=320, D_{\text{state}}=160$) | 7.3M |
 | **Dataset** | DuoNeural Golden Ratio (TinyStories + FineWeb + CoT) | DuoNeural Golden Ratio (102.4M tokens) | Golden Corpus |
-| **Tokens Processed** | **20.48M** (2,500 steps) | **98.30M+** (12,000 / 12,500 steps — **98.30% Chinchilla**) | 95.8M |
+| **Tokens Processed** | **20.48M** (2,500 steps) | **99.12M+** (12,100 / 12,500 steps — **99.12% Chinchilla**) | 95.8M |
 | **Wall Clock Time** | **12.86 hours** | Active pretraining (~535–565 tok/s) | ~122 hours |
 | **Throughput** | **442.4 tok/s** (AVX2 / OpenMP) | **545.6 tok/s** (AVX2 / OpenMP) | 185 tok/s |
 | **GradNorm** | **1.1 – 1.6** (Strictly bounded) | **1.1 – 1.7** (Contractive Adjoint) | $\sim 2,946,000$ (Frozen) |
 | **Best Validation Loss** | **3.3735** 🏆 | **`3.1123`** (Step 8,300) 🏆 | 6.5484 |
 | **Best Perplexity** | **29.18** 🏆 | **`22.47`** (Step 8,300) 🏆 | 698.1 |
 
-### Emergent Generation & Training Dynamics (Steps 1,600 – 12,000+):
-* **98.3M+ Chinchilla Milestone (The Final 500 Steps):** Crossed **`98,304,000 tokens`** processed at Step 12,000 / 12,500 (**98.30% complete**) on consumer Ryzen 5 3550H APU hardware with zero GPU assistance! Exactly **500 steps (~4.0 hours)** remaining until the historic 100M token horizon!
-* **Atomic Checkpoint 12k Saved:** `crsn_step12000.pt` (Val Loss: **`3.6008`**, PPL: **`36.6`**) successfully archived to `/home/duoneural/srsn_ryzen/checkpoints_crsn_100m/`.
+### Emergent Generation & Training Dynamics (Steps 1,600 – 12,100+):
+* **99.1M+ Chinchilla Milestone (The Final 400 Steps):** Crossed **`99,123,200 tokens`** processed at Step 12,100 / 12,500 (**99.12% complete**) on consumer Ryzen 5 3550H APU hardware with zero GPU assistance! Exactly **400 steps (~3.1 hours)** remaining until the historic 100M token horizon!
+* **Atomic Checkpoints 12k & 12.1k Saved:** `crsn_step12000.pt` and `crsn_step12100.pt` (Val Loss: **`3.4739`**, PPL: **`32.3`**) successfully archived to `/home/duoneural/srsn_ryzen/checkpoints_crsn_100m/`.
+* **Emergent Step-by-Step Proofs & Case Analysis (Step 12,100):**
+  > *`User: Is a cat an animal?`*  
+  > *`Assistant:`*  
+  > *`*   **   Step 3 ($| Case Case:****`*  
+  > *`We want to be in the non"`*
 * **Emergent Probability Theory & Recursive Tokens (Step 12,000):**
   > *`User: Is a cat an animal?`*  
   > *`Assistant: estabable to find an Ace on the first card drawn without replacement from a standard 5 from a square. \n***Recursive"`*
