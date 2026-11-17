@@ -192,6 +192,18 @@ bash launch_crsn.sh
 
 ---
 
+## 🔥 CRSN-T (4-Laws Thermodynamic Extension) — 25k Pretraining Results
+
+Extended the Clifford Resonant Sheaf Network with explicit **0th–3rd Laws of Thermodynamics** (inter-layer temperature equilibration $\kappa=0.01$, Nernst entropy floor $\alpha_{\text{floor}}=0.05$, and metriplectic dissipation) on **Node-0 (AMD Ryzen 5 3550H CPU, 4 cores, AVX2 OpenMP)**:
+
+* **Total Tokens**: `102,400,000` (`25,000` optimizer steps, resumed from `crsn_step12500.pt` at Val Loss `3.5114`)
+* **Best Validation Loss**: **`2.5900`** (**`PPL = 13.33`**) at Step `24,400`
+* **Average Throughput**: `434.43 tok/s` (`3928.54 min` wall time)
+* **Oscillator Stability**: All 8 layers strictly positive ($\alpha_{\min} = 0.1073$, $\alpha_{\text{mean}} \in [0.1276, 0.1324]$, $\omega_{\text{mean}} \in [0.5195, 0.5749]$)
+* **Status**: Extended `50,000`-step pretraining run (`launch_crsn_thermo_50k.sh`) currently active on Node-0.
+
+---
+
 ## 📜 Citation
 
 If you use CRSN or build upon the Clifford Resonant Sheaf architecture in your research, please cite:
