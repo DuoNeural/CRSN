@@ -200,7 +200,9 @@ Extended the Clifford Resonant Sheaf Network with explicit **0th–3rd Laws of T
 * **Best Validation Loss**: **`2.5900`** (**`PPL = 13.33`**) at Step `24,400`
 * **Average Throughput**: `434.43 tok/s` (`3928.54 min` wall time)
 * **Oscillator Stability**: All 8 layers strictly positive ($\alpha_{\min} = 0.1073$, $\alpha_{\text{mean}} \in [0.1276, 0.1324]$, $\omega_{\text{mean}} \in [0.5195, 0.5749]$)
-* **Status**: Extended `50,000`-step pretraining run (`launch_crsn_thermo_50k.sh`) currently active on Node-0.
+* **Status**: **50,000-step extension COMPLETE** (`209,715,200` total tokens, `7821.90 min` wall time, `446.85 tok/s` avg, `652.7 tok/s` final). Final Val Loss: `2.8445` (`PPL = 17.2`), Best Val Loss: **`2.5900`** (`PPL = 13.33`).
+* **50k Oscillator Probe (`crsn_t_step50000.pt`)**: All 8 layers remain strictly positive ($\alpha_{\min} = 0.1073$, $\alpha_{\text{mean}} \in [0.1276, 0.1324]$, $\omega_{\text{mean}} \in [0.5223, 0.6364]$); fluent TinyStories narrative generation.
+* **HuggingFace**: [`DuoNeural/CRSN-T-ext-50k`](https://huggingface.co/DuoNeural/CRSN-T-ext-50k)
 
 ---
 
