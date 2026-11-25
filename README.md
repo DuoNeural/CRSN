@@ -208,13 +208,33 @@ Extended the Clifford Resonant Sheaf Network with explicit **0th–3rd Laws of T
 
 ## 🧪 CRSN-T SFT Probe (`60/20/20` Mix — Complete at Step `47,700`)
 
-Resumed `crsn_t_best.pt` (`alpha_base=0.128`, `alpha_floor=0.05`, `kappa=0.01`, `t0=1.0`, `seq_len=256`, `batch_size=8`, `grad_accum=4`) on **Node-0 (AMD Ryzen 5 3550H CPU)** over the `60/20/20` mix (`cdm_reasoning_traces` / code / WikiText) to test whether thermodynamic crystal dynamics persist under fine-tuning:
+Resumed `crsn_t_best.pt` (`alpha_base=0.128`, `alpha_floor=0.05`, `kappa=0.01`, `t0=1.0`, `seq_len=256`, `batch_size=8`, `grad_accum=4`, `muon_lr=0.002`, `adam_lr=1e-4`) on **Node-0 (AMD Ryzen 5 3550H CPU)** over `train_sft_60_20_20.bin` (`60%` `cdm_reasoning_traces` / `20%` code / `20%` WikiText) to test whether thermodynamic crystal dynamics persist under fine-tuning:
 
-* **Completion Metrics (`crsn_t_step47700.pt`)**: `81,920,000` tokens (`3084.08 mins` wall time, `442.70 tok/s` average).
-* **Final SFT Validation**: **`Val Loss = 3.2399` (`PPL = 25.5`)** at Step `47,700` (lowest across the SFT validation trace `3.9302 -> 3.8162 -> 3.2802 -> 4.5574 -> 4.6164 -> 4.2255 -> 5.3273 -> 3.2399`; final train loss `2.4844`).
-* **Two-Scale Thermodynamic Finding (Nernst Override vs. Preserved Crystal)**:
-  * *Runtime Dissipation (`alpha_eff`):* As gradient-variance layer temperatures cooled (`T = 0.063`, per-layer `ema_temperatures = [0.0858, 0.1576, 0.0076, 0.1583, 0.0057, 0.0216, 0.0092, 0.0539]`), `ThermodynamicEngine` smoothly clamped dynamic damping toward the Nernst floor (`alpha_eff -> 0.0507`).
-  * *Underlying Parameter Crystal (`softplus(alpha_raw)`):* Direct checkpoint inspection of `crsn_t_step47700.pt` confirms all 8 layers preserved strict positivity and their exact pretrain crystal envelope (`softplus(alpha_raw)` layer means in `[0.1276, 0.1324]`, global range `[0.1073, 0.3514]`).
+* **Completion Metrics (`crsn_t_step47700.pt`)**: `81,920,000` tokens (`3084.08 mins` wall time, `442.70 tok/s` average; final train loss `2.4844`).
+* **Two-Scale Thermodynamic Finding (Nernst Runtime Tuning vs. Preserved Crystal)**:
+  * *Runtime Dissipation (`alpha_eff`):* As gradient-variance layer temperatures cooled (`T = 0.063`, per-layer `ema_temperatures = [0.0858, 0.1576, 0.0076, 0.1583, 0.0057, 0.0216, 0.0092, 0.0539]`), `ThermodynamicEngine` tuned effective runtime damping to **`alpha_eff = [0.0500, 0.0522, 0.0500, 0.0530, 0.0500, 0.0503, 0.0500, 0.0504]`**.
+  * *Underlying Parameter Crystal (`softplus(alpha_raw)`):* Direct checkpoint inspection confirms all 8 layers preserved strict positivity and their exact pretrain crystal envelope (`softplus(alpha_raw)` layer means in `[0.1276, 0.1324]`, global range `[0.1073, 0.3514]`).
+  * *Inference Q-Factor Resonance Effect:* Evaluating `SFT_47700` without restoring `alpha_eff` (`alpha_raw ~ 0.128`) detunes the oscillators (`60%` Reasoning PPL `43.2` vs **`8.8`** under exact `alpha_eff`).
+
+### 📊 Full Multi-Domain SFT Probe Matrix (`val_sft_60_20_20.bin` 261 chunks & `val_golden.bin` 781 chunks)
+
+| Checkpoint & Eval Regime | Full SFT Mix | Reasoning (`60%`) | Code (`20%`) | WikiText (`20%`) | Golden Corpus (Pretrain Retention) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **`PRETRAIN_BEST` (`crsn_t_best.pt`, `alpha_raw`)** | `8.122` (`3368.9`) | `5.539` (`254.4`) | `9.734` (`16888.0`) | `14.145` (`1.39M`) | **`3.514` (`33.6`)** |
+| **`SFT_47700` (`alpha_raw`, detuned inference)** | `5.210` (`183.0`) | `3.767` (`43.2`) | `6.069` (`432.0`) | **`8.614` (`5508.2`)** | `5.456` (`234.3`) |
+| **`SFT_47700` (`alpha_eff` Nernst-matched)** | **`4.239` (`69.4`)** | **`2.173` (`8.8`)** | **`5.499` (`244.5`)** | `9.084` (`8810.6`) | `4.705` (`110.5`) |
+
+* **Key Diagnostic Takeaways:**
+  1. On reasoning traces, Nernst-matched `SFT_47700` achieved a **`28.9×` perplexity reduction (`254.4 -> 8.8`)**, and Code perplexity dropped **`69×` (`16,888 -> 244.5`)**.
+  2. Because `train_sft_60_20_20.bin` (~`3.15M` tokens) ran for ~26 epochs with **zero Golden replay** at `muon_lr=0.002`, Golden retention drifted from `33.6 -> 110.5` PPL, causing story/dialogue prompts to drift into competition math LaTeX and `T=0.35` reasoning probes to adopt Olympiad symbolic formatting.
+
+### 🗣️ Observed Generation Comparison (`T=0.35`, `top_k=40`)
+* **`PRETRAIN_BEST` Story Prompt (`Once upon a time, a little robot looked up at the stars and...`):**
+  > *"saw that it was a little girl. She thought it was very pretty and it was very happy. The little girl was happy to help her mommy and said..."* (fluent narrative retention, weak structured CoT).
+* **`SFT_47700` (`alpha_raw`) CoT-Math Prompt (`User: If Alice has 3 boxes and each box has 4 apples...`):**
+  > *"`\frac{1}{2}$ Let $a$ be a positive integer, b, b, c$ and let $\neqsl{n})$ be the sum of the first $n$ terms..."`*
+* **`SFT_47700` (`alpha_eff`) Story Drift (`Once upon a time, a little robot looked up at the stars and...`):**
+  > *"and a tree. The number of the number of the red marbles are red, and blue. Given the numbers in the sequence $\{a_n\}$ is a geometric sequence..."* (demonstrates 9.5M capacity shift toward reasoning-domain priors without rehearsal).
 
 ---
 
