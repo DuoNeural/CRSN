@@ -223,10 +223,12 @@ Resumed `crsn_t_best.pt` (`alpha_base=0.128`, `alpha_floor=0.05`, `kappa=0.01`, 
 | **`PRETRAIN_BEST` (`crsn_t_best.pt`, `alpha_raw`)** | `8.122` (`3368.9`) | `5.539` (`254.4`) | `9.734` (`16888.0`) | `14.145` (`1.39M`) | **`3.514` (`33.6`)** |
 | **`SFT_47700` (`alpha_raw`, detuned inference)** | `5.210` (`183.0`) | `3.767` (`43.2`) | `6.069` (`432.0`) | **`8.614` (`5508.2`)** | `5.456` (`234.3`) |
 | **`SFT_47700` (`alpha_eff` Nernst-matched)** | **`4.239` (`69.4`)** | **`2.173` (`8.8`)** | **`5.499` (`244.5`)** | `9.084` (`8810.6`) | `4.705` (`110.5`) |
+| **`Replay-SFT @ 38,500` (`50/50` Golden+SFT, `alpha_floor=0.08`, 800 steps)** | `5.934` (`377.8`) | `3.283` (`26.6`) | `7.514` (`1833.6`) | `12.190` (`196.8k`) | **`3.173` (`23.9`)** |
 
 * **Key Diagnostic Takeaways:**
   1. On reasoning traces, Nernst-matched `SFT_47700` achieved a **`28.9×` perplexity reduction (`254.4 -> 8.8`)**, and Code perplexity dropped **`69×` (`16,888 -> 244.5`)**.
   2. Because `train_sft_60_20_20.bin` (~`3.15M` tokens) ran for ~26 epochs with **zero Golden replay** at `muon_lr=0.002`, Golden retention drifted from `33.6 -> 110.5` PPL, causing story/dialogue prompts to drift into competition math LaTeX and `T=0.35` reasoning probes to adopt Olympiad symbolic formatting.
+  3. **Active Cure (`Replay-SFT`, Step `38,500` in progress on Node-0):** Resuming `crsn_t_best.pt` on a balanced shuffled `50/50` Golden + SFT mix (`19.99M` tokens) with gentler LR (`muon_lr=0.0006`, `adam_lr=3e-5`) and elevated Nernst floor (`alpha_floor=0.08`, `alpha_eff ~ 0.0807`) already cut Reasoning PPL **`9.6×` (`254.4 -> 26.6`)** and Code PPL **`9.2×` (`16,888 -> 1,833.6`)** in 800 steps **while improving Golden retention from `33.6 -> 23.9` PPL (`-9.7` PPL) and preserving clean TinyStories fluency**.
 
 ### 🗣️ Observed Generation Comparison (`T=0.35`, `top_k=40`)
 * **`PRETRAIN_BEST` Story Prompt (`Once upon a time, a little robot looked up at the stars and...`):**
