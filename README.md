@@ -206,6 +206,18 @@ Extended the Clifford Resonant Sheaf Network with explicit **0th–3rd Laws of T
 
 ---
 
+## 🧪 CRSN-T SFT Probe (`60/20/20` Mix — Complete at Step `47,700`)
+
+Resumed `crsn_t_best.pt` (`alpha_base=0.128`, `alpha_floor=0.05`, `kappa=0.01`, `t0=1.0`, `seq_len=256`, `batch_size=8`, `grad_accum=4`) on **Node-0 (AMD Ryzen 5 3550H CPU)** over the `60/20/20` mix (`cdm_reasoning_traces` / code / WikiText) to test whether thermodynamic crystal dynamics persist under fine-tuning:
+
+* **Completion Metrics (`crsn_t_step47700.pt`)**: `81,920,000` tokens (`3084.08 mins` wall time, `442.70 tok/s` average).
+* **Final SFT Validation**: **`Val Loss = 3.2399` (`PPL = 25.5`)** at Step `47,700` (lowest across the SFT validation trace `3.9302 -> 3.8162 -> 3.2802 -> 4.5574 -> 4.6164 -> 4.2255 -> 5.3273 -> 3.2399`; final train loss `2.4844`).
+* **Two-Scale Thermodynamic Finding (Nernst Override vs. Preserved Crystal)**:
+  * *Runtime Dissipation (`alpha_eff`):* As gradient-variance layer temperatures cooled (`T = 0.063`, per-layer `ema_temperatures = [0.0858, 0.1576, 0.0076, 0.1583, 0.0057, 0.0216, 0.0092, 0.0539]`), `ThermodynamicEngine` smoothly clamped dynamic damping toward the Nernst floor (`alpha_eff -> 0.0507`).
+  * *Underlying Parameter Crystal (`softplus(alpha_raw)`):* Direct checkpoint inspection of `crsn_t_step47700.pt` confirms all 8 layers preserved strict positivity and their exact pretrain crystal envelope (`softplus(alpha_raw)` layer means in `[0.1276, 0.1324]`, global range `[0.1073, 0.3514]`).
+
+---
+
 ## 📜 Citation
 
 If you use CRSN or build upon the Clifford Resonant Sheaf architecture in your research, please cite:
