@@ -229,6 +229,7 @@ Resumed `crsn_t_best.pt` (`alpha_base=0.128`, `alpha_floor=0.05`, `kappa=0.01`, 
 | **`Replay-SFT @ 40,000` (`50/50` Golden+SFT, `alpha_floor=0.08`, 2,300 steps)** | `5.002` (`148.7`) | `2.937` (`18.9`) | `6.230` (`508.0`) | `9.876` (`19.5k`) | **`3.181` (`24.1`)** |
 | **`Replay-SFT @ 40,500` (`50/50` Golden+SFT, `alpha_floor=0.08`, 2,800 steps)** | `4.898` (`134.0`) | `2.891` (`18.0`) | `6.197` (`491.2`) | `9.633` (`15.3k`) | **`3.184` (`24.1`)** |
 | **`Replay-SFT @ 41,000` (`50/50` Golden+SFT, `alpha_floor=0.08`, 3,300 steps)** | `4.824` (`124.5`) | `2.854` (`17.4`) | `6.101` (`446.5`) | `9.471` (`13.0k`) | **`3.183` (`24.1`)** |
+| **`Replay-SFT @ 41,500` (`50/50` Golden+SFT, `alpha_floor=0.08`, 3,800 steps)** | `4.736` (`114.0`) | `2.824` (`16.9`) | `5.979` (`395.1`) | `9.243` (`10.3k`) | **`3.184` (`24.1`)** |
 
 * **Key Diagnostic Takeaways:**
   1. On reasoning traces, Nernst-matched `SFT_47700` achieved a **`28.9×` perplexity reduction (`254.4 -> 8.8`)**, and Code perplexity dropped **`69×` (`16,888 -> 244.5`)**.
